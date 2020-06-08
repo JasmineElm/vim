@@ -1,0 +1,1 @@
+/home/x220/.vim/templates/skeleton.zsh

@@ -1,1 +1,4 @@
-/home/x220/.vim/templates/skeleton.zsh
+#!/data/data/com.termux/files/usr/bin/zsh
+
+# A Script to 
+

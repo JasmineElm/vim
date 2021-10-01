@@ -14,6 +14,5 @@ My configuration intends to make writing as easy as possible:
 
 + toggles to remove numbers and ruler for a more 'Zen' experience.
 + tweak colours to look more consistent
-+ add functions for `pandoc` completion (especially citation)
 
 

@@ -26,6 +26,7 @@ set shiftwidth=2
 set shiftround
 set autoindent
 set complete-=i
+
 set list listchars=tab:»·,trail:·,nbsp:·
 
 " sensible backspace, questionable cursor
@@ -41,7 +42,6 @@ set autoread                      " if file is modified elsewhere, reload it
 set autowrite                     " save file on loss of focus
 autocmd FocusLost * wa
 autocmd CursorHold * wa
-
 
 " Display
 set incsearch                     " update searches as type
@@ -165,7 +165,7 @@ function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
     let l:all_non_errors = l:counts.total - l:all_errors
-    return l:counts.total == 0 ? 'OK' : printf(
+    return l:counts.total == 0 ? '' : printf(
         \   '%d⨉ %d⚠ ',
         \   all_non_errors,
         \   all_errors
@@ -184,9 +184,10 @@ au BufNewFile,BufRead *.{md,mdown,mkd,mkdn,markdown,mdwn} call DistractionFreeWr
 
 function! DistractionFreeWriting()
     :Limelight
-    call lexical#init()
+    "call lexical#init()
     call litecorrect#init()
-    set rulerformat=%#TabLineSel#\ %{local_functions#WordCount()}%{LinterStatus()}%#Statement#\ %m\ %#VisualNOS#\ %l:%c
+    set rulerformat+=%-14{local_functions#WordCount()}
+    set rulerformat+=%l:%c
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -237,7 +238,7 @@ endif
 call plug#begin()
 Plug 'junegunn/limelight.vim'           " Distraction free writing
 Plug 'ctrlpvim/ctrlp.vim'               " For sensible link insertion
-Plug 'reedes/vim-lexical'               " Better spellcheck mappings
+"Plug 'reedes/vim-lexical'               " Better spellcheck mappings
 Plug 'reedes/vim-litecorrect'           " Better autocorrections
 Plug 'reedes/vim-wordy'                 " Weasel words and passive voice
 Plug 'morhetz/gruvbox'                  " a pretty theme...

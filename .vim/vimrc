@@ -26,7 +26,6 @@ set shiftwidth=2
 set shiftround
 set autoindent
 set complete-=i
-
 set list listchars=tab:»·,trail:·,nbsp:·
 
 " sensible backspace, questionable cursor
@@ -42,6 +41,7 @@ set autoread                      " if file is modified elsewhere, reload it
 set autowrite                     " save file on loss of focus
 autocmd FocusLost * wa
 autocmd CursorHold * wa
+
 
 " Display
 set incsearch                     " update searches as type

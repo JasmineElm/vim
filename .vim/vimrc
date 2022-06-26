@@ -124,8 +124,6 @@ augroup END
 " accept first match in spell check (insert mode)
 inoremap <C-L> <esc>[s1z=`]<CR>
 
-" vaguely related, digraphs via <base><bs><mod> eg <c><BS><,> for ç
-set digraph
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                             MD-IMG-PASTE
 autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
@@ -167,7 +165,7 @@ function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
     let l:all_non_errors = l:counts.total - l:all_errors
-    return l:counts.total == 0 ? '' : printf(
+    return l:counts.total == 0 ? 'OK' : printf(
         \   '%d⨉ %d⚠ ',
         \   all_non_errors,
         \   all_errors
@@ -186,10 +184,9 @@ au BufNewFile,BufRead *.{md,mdown,mkd,mkdn,markdown,mdwn} call DistractionFreeWr
 
 function! DistractionFreeWriting()
     :Limelight
-    "call lexical#init()
+    call lexical#init()
     call litecorrect#init()
-    set rulerformat+=%-14{local_functions#WordCount()}
-    set rulerformat+=%l:%c
+    set rulerformat=%#TabLineSel#\ %{local_functions#WordCount()}%{LinterStatus()}%#Statement#\ %m\ %#VisualNOS#\ %l:%c
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -240,7 +237,7 @@ endif
 call plug#begin()
 Plug 'junegunn/limelight.vim'           " Distraction free writing
 Plug 'ctrlpvim/ctrlp.vim'               " For sensible link insertion
-"Plug 'reedes/vim-lexical'               " Better spellcheck mappings
+Plug 'reedes/vim-lexical'               " Better spellcheck mappings
 Plug 'reedes/vim-litecorrect'           " Better autocorrections
 Plug 'reedes/vim-wordy'                 " Weasel words and passive voice
 Plug 'morhetz/gruvbox'                  " a pretty theme...

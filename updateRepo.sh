@@ -8,6 +8,7 @@ update() {
 }
 
 datestamp() {
+  # add a datestamp
   date +"%Y-%m-%d %H:%M"
 } 
 

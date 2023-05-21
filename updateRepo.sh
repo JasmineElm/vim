@@ -7,10 +7,24 @@ update() {
   rsync "$HOME"/.vim/autoload/local_functions.vim .vim/autoload/local_functions.vim
 }
 
+install() {
+  # install vim-plug
+  curl -fLo .vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  vi +PlugInstall -c 'qa!'
+}
+
+restore() {
+  # restore local files
+  cp -r .vi* "$HOME"/
+  cp -r .config/* "$HOME"/.config/
+  install
+}
+
 datestamp() {
   # add a datestamp
   date +"%Y-%m-%d %H:%M"
-} 
+}
 
 pushit() {
   git pull
@@ -28,12 +42,15 @@ add_and_push() {
 
 _main() {
     if [[ -z "$*" ]]
-        then add_and_push; 
+        then add_and_push;
     fi
-    while getopts ":u" opt; do
+    while getopts ":ui" opt; do
         case $opt in
             u)
               update
+            ;;
+            i)
+              restore
             ;;
             *)
               add_and_push
@@ -43,4 +60,3 @@ _main() {
 }
 
 _main "$@"
-

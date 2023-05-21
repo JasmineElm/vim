@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 
+list_local_files() {
+  # list local files
+  find . -type f -not -path '*/\.*' \
+    -not -path './README.md' \
+    -not -path './updateRepo.sh' \
+    -not -path './.git/*'
+}
+
 update() {
-  # Explicitly copy local files rather than rely on symlinks
-  rsync "$HOME"/.vim/vimrc .vim/vimrc
-  rsync "$HOME"/.vim/templates/* .vim/templates/
-  rsync "$HOME"/.vim/autoload/local_functions.vim .vim/autoload/local_functions.vim
+  for file in $(list_local_files); do
+    # copy local files to repo
+    rsync "$HOME"/"$file" .
+  done
 }
 
 install() {

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 list_local_files() {
   # list local files
@@ -19,7 +19,7 @@ install() {
   # install vim-plug
   curl -fLo .vim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  vi +PlugInstall -c 'qa!'
+  vim +PlugInstall -c 'qa!'
 }
 
 restore() {
@@ -49,7 +49,7 @@ add_and_push() {
 }
 
 _main() {
-    if [[ -z "$*" ]]
+    if [ -z "$*" ]
         then add_and_push;
     fi
     while getopts ":ui" opt; do

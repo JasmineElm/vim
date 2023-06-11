@@ -13,6 +13,7 @@ update() {
     # copy local files to repo
     rsync "$HOME"/"$file" .
   done
+  git add .
 }
 
 install() {

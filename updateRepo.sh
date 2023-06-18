@@ -13,7 +13,7 @@ list_local_files() {
 update() {
   for file in $(list_local_files); do
     # copy local files to repo
-    rsync "$HOME"/"$file" .
+    rsync "$HOME"/"$file" "$file"
   done
   git add .
 }

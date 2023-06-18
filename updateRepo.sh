@@ -2,7 +2,7 @@
 
 list_local_files() {
   # list local files
-  find . -type f -not -path '*/\.*' \
+  find . -type f \
     -not -path './README.md' \
     -not -path './updateRepo.sh' \
     -not -path './.git/*'

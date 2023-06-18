@@ -5,7 +5,9 @@ list_local_files() {
   find . -type f \
     -not -path './README.md' \
     -not -path './updateRepo.sh' \
-    -not -path './.git/*'
+    -not -path './.git/*' \
+    -printf '%P\n'
+
 }
 
 update() {

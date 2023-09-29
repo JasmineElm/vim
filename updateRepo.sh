@@ -1,16 +1,41 @@
-#!/usr/bin/env bash
+#!/bin/sh
+
+list_local_files() {
+  # list local files
+  find . -type f \
+    -not -path './README.md' \
+    -not -path './updateRepo.sh' \
+    -not -path './.git/*' \
+    -printf '%P\n'
+
+}
 
 update() {
-  # Explicitly copy local files rather than rely on symlinks
-  rsync "$HOME"/.vim/vimrc .vim/vimrc
-  rsync "$HOME"/.vim/templates/* .vim/templates/
-  rsync "$HOME"/.vim/autoload/local_functions.vim .vim/autoload/local_functions.vim
+  for file in $(list_local_files); do
+    # copy local files to repo
+    rsync "$HOME"/"$file" "$file"
+  done
+  git add .
+}
+
+install() {
+  # install vim-plug
+  curl -fLo .vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  vim +PlugInstall -c 'qa!'
+}
+
+restore() {
+  # restore local files
+  cp -r .vi* "$HOME"/
+  cp -r .config/* "$HOME"/.config/
+  install
 }
 
 datestamp() {
   # add a datestamp
   date +"%Y-%m-%d %H:%M"
-} 
+}
 
 pushit() {
   git pull
@@ -27,13 +52,16 @@ add_and_push() {
 }
 
 _main() {
-    if [[ -z "$*" ]]
-        then add_and_push; 
+    if [ -z "$*" ]
+        then add_and_push;
     fi
-    while getopts ":u" opt; do
+    while getopts ":ui" opt; do
         case $opt in
             u)
               update
+            ;;
+            i)
+              restore
             ;;
             *)
               add_and_push
@@ -43,4 +71,3 @@ _main() {
 }
 
 _main "$@"
-
